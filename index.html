@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poema Triste</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(45deg, #2c3e50, #34495e); /* Fondo oscuro */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Estilo para el texto de letrero luminoso */
+        .led-text {
+            font-family: 'Digital-7', sans-serif;
+            font-size: 2.5rem;
+            color: #ecf0f1;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            animation: marquee 30s linear forwards; /* Se ejecuta una sola vez */
+        }
+
+        /* Animación para el texto desplazándose de derecha a izquierda */
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Estilo para el abrazo virtual */
+        .hug {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: hugAnimation 3s infinite ease-in-out;
+            width: 250px; /* Tamaño más grande */
+            height: auto;
+            opacity: 0; /* Inicialmente oculto */
+            display: none; /* Mantenerlo oculto hasta el momento adecuado */
+        }
+
+        @keyframes hugAnimation {
+            0% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Animación de nieve */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background-color: white;
+            border-radius: 50%;
+            animation: snow 5s linear infinite;
+        }
+
+        @keyframes snow {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Música de fondo */
+        audio {
+            display: none;
+        }
+
+        /* Botón para reproducir música */
+        .play-button {
+            position: absolute;
+            bottom: 20%;
+            padding: 10px 20px;
+            background-color: #ecf0f1;
+            border: none;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Poema triste con efecto de letrero luminoso desplazándose -->
+    <div class="led-text" id="poema">
+        Chikita, te extraño de la manera mas callada que existe.
+    </div>
+
+    <!-- Abrazo virtual con GIF, oculto inicialmente -->
+    <div class="hug" id="hug">
+        <img src="abrazo.gif" alt="Abrazo virtual"> <!-- Cambia este nombre si usas otro GIF -->
+    </div>
+
+    <!-- Botón para reproducir música -->
+    <button class="play-button" id="playButton" onclick="playAudio()">Reproducir música</button>
+
+    <!-- Música de fondo -->
+    <audio id="audio" loop>
+        <source src="musica.mp3" type="audio/mp3"> <!-- Cambia el nombre si el archivo es diferente -->
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Generación de copos de nieve -->
+    <script>
+        // Función para crear copos de nieve
+        function createSnowflakes() {
+            const snowflakes = document.createElement('div');
+            snowflakes.classList.add('snowflake');
+            const size = Math.random() * 10 + 5; // Tamaño aleatorio entre 5 y 15px
+            snowflakes.style.width = size + 'px';
+            snowflakes.style.height = size + 'px';
+            snowflakes.style.left = Math.random() * window.innerWidth + 'px'; // Posición horizontal aleatoria
+            snowflakes.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Duración de la caída aleatoria
+            snowflakes.style.animationDelay = Math.random() * 5 + 's'; // Retraso aleatorio
+            document.body.appendChild(snowflakes);
+
+            // Eliminar copo de nieve después de que termina la animación
+            setTimeout(() => {
+                snowflakes.remove();
+            }, 10000); // Duración de la animación de nieve
+        }
+
+        // Crear nieve cada 200 ms
+        setInterval(createSnowflakes, 200);
+
+        // Función para mostrar el abrazo después de 30 segundos (el tiempo del poema)
+        setTimeout(() => {
+            document.getElementById('hug').style.display = 'block'; // Cambiar el display a block para mostrarlo
+            document.getElementById('hug').style.opacity = 1; // Hacer visible el abrazo
+        }, 30000); // 30,000 milisegundos = 30 segundos (muestra el abrazo después del poema)
+
+        // Función para reproducir música y ocultar el botón
+        function playAudio() {
+            document.getElementById('audio').play(); // Reproducir música
+            document.getElementById('playButton').style.display = 'none'; // Ocultar el botón de reproducción
+        }
+
+        // Función para ocultar el poema al final de la animación
+        setTimeout(() => {
+            document.getElementById('poema').style.display = 'none'; // Ocultar el poema
+        }, 30000); // 30,000 milisegundos = 30 segundos (oculta el poema después de 30 segundos)
+    </script>
+
+</body>
+</html>
